@@ -4,10 +4,14 @@ const User = mongoose.model('users');
 module.exports = app => {
     app.get(
         '/', 
-        () => {
-            User.findOne({ userId: 1 })
+        (res,req) => {
+            User.find().sort({createdAt: -1})[0]
                 .then((user) => {
-                    console.log(user);
+                    if (user) {
+                        res.send(user);
+                    } else {
+                        new User ({ userId: 1})
+                    }
                 });        
         }
     );
