@@ -20,7 +20,7 @@ class Register extends Component {
                     <CardHeader title="Cadastro"/>
                     <CardContent>              
                         <form noValidate autoComplete="off">
-                            <Grid container direction="row" justify="center" alignItems="center">
+                            <Grid container direction="row" justify="space-between" alignItems="center">
                                 <Grid item lg style={{textAlign: "center"}}>
                                     <TextField id="txtName" label="Nome" variant="outlined" />
                                 </Grid>
