@@ -7,8 +7,14 @@ import Register from './pages/Register';
 class App extends Component {
 
   render() {
+    const styles = {
+      background: {
+        backgroundColor: "#e9e9e9",
+      }
+    };
+
     return (
-      <div>
+      <div style={styles.background}>
         <Header/>
         <BrowserRouter>
           <Switch>          

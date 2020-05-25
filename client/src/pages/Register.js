@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Content } from "../styles";
-import { Container, Grid, TextField, Card, CardContent, CardHeader, CardActions, FormControl, 
-    InputLabel, OutlinedInput, InputAdornment, Button } from '@material-ui/core'
+import { Container, Grid, TextField, Card, CardContent, CardHeader, CardActions, 
+    InputAdornment, Button, Divider } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
+import { ptBR } from "date-fns/locale";
 
 class Register extends Component {
     render() {
@@ -12,59 +13,79 @@ class Register extends Component {
         const handleDateChange = (date) => {
             selectedDate = date;
         };
-        
+
+        const styles  = {
+            item: {
+                textAlign: 'center',
+                padding: '8px',
+            },
+            header: {
+              textAlign: 'center',
+              spacing: 10,
+            },
+            action: {
+              display: 'flex',
+              justifyContent: 'space-around',
+            },
+        };
+
         return (            
             <Container maxWidth="lg">
                 <Content>
-                <Card  variant="outlined"> 
-                    <CardHeader title="Cadastro"/>
-                    <CardContent>              
-                        <form noValidate autoComplete="off">
-                            <Grid container direction="row" justify="space-between" alignItems="center">
-                                <Grid item lg style={{textAlign: "center"}}>
-                                    <TextField id="txtName" label="Nome" variant="outlined" />
-                                </Grid>
-                                <Grid item lg style={{textAlign: "center"}}>
-                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                        <KeyboardDatePicker
-                                            margin="normal"
-                                            id="dateInitial"
-                                            label="Data de início"
-                                            format="MM/dd/yyyy"
-                                            value={selectedDate}
-                                            onChange={handleDateChange}
-                                            KeyboardButtonProps={{
-                                                'aria-label': 'change date',
-                                            }}
-                                        />
-                                    </MuiPickersUtilsProvider>
-                                </Grid>
-                                <Grid item lg style={{textAlign: "center"}}>
-                                    <TextField text="number" id="txtEstimatedTime" label="Duração estimada" variant="outlined" />   
-                                </Grid>
-                                <Grid item lg style={{textAlign: "center"}}>
-                                    <TextField id="txtLocation" label="Localização" variant="outlined" />   
-                                </Grid>
-                                <Grid item lg style={{textAlign: "center"}}>
-                                    <FormControl fullWidth variant="outlined">
-                                        <InputLabel htmlFor="txtAmount">Valor Total</InputLabel>
-                                        <OutlinedInput
+                    <Card> 
+                        <CardHeader title="Cadastro" style={styles.header}/>
+                        <Divider variant="middle"/>
+                        <CardContent>              
+                            <form noValidate autoComplete="off">
+                                <Grid container direction="column" justify="space-between" alignItems="stretch">
+                                    <Grid item lg style={styles.item}>
+                                        <TextField id="txtName" label="Nome" variant="outlined" fullWidth/>
+                                    </Grid>
+
+                                    <Grid item lg style={styles.item}>
+                                        <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
+                                            <KeyboardDatePicker
+                                                fullWidth
+                                                inputVariant="outlined"
+                                                id="dateInitial"
+                                                label="Data de início"
+                                                format="dd/MM/yyyy"
+                                                value={selectedDate}
+                                                onChange={handleDateChange}
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date',
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                    </Grid>
+                                    
+                                    <Grid item lg style={styles.item}>
+                                        <TextField 
+                                            fullWidth 
+                                            id="txtLocation" 
+                                            label="Localização" 
+                                            variant="outlined" />   
+                                    </Grid>
+
+                                    <Grid item lg style={styles.item}>
+                                        <TextField
+                                            fullWidth
+                                            label="Valor Total"
                                             id="txtAmount"
-                                            value={0}
-                                            onChange={()=> {}}
-                                            startAdornment={<InputAdornment position="start">R$</InputAdornment>}
-                                            labelWidth={60}
-                                        />
-                                    </FormControl>
+                                            InputProps={{
+                                                startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+                                            }}
+                                            variant="outlined" />
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </form> 
-                    </CardContent>
-                    <CardActions>
-                        <Button>Salvar</Button>
-                    </CardActions>
-                </Card>
-                </Content> 
+                            </form> 
+                        </CardContent>
+                        <Divider variant="middle"/>
+                        <CardActions style={styles.action}>
+                            <Button variant="contained" color="primary" >Salvar</Button>
+                        </CardActions>
+                    </Card>
+                </Content>
             </Container>              
         )
     }
