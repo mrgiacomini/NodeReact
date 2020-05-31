@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-//import styled from "styled-components";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
     render() {
@@ -14,10 +11,11 @@ class Home extends Component {
                   <IconButton edge="start" color="inherit" aria-label="Menu">
                       <MenuIcon />
                   </IconButton>
-                  <Typography variant="h6" >
-                      Giacomini Pinturas
+                  <Link to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
+                  <Typography variant="h6">
+                     Giacomini Pinturas
                   </Typography>
-                  
+                  </Link>
               </Toolbar>
           </AppBar>
       );

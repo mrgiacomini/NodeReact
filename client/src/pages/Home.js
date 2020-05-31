@@ -1,28 +1,46 @@
 import React, { Component } from 'react';
 import { Content } from "../styles";
-import { Container, Button, List, ListItem, ListItemText } from '@material-ui/core';
+import { Container, Button, List, ListItem, ListItemText, Card, CardContent } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Service from '../services/service';
 
 class Home extends Component {
+    state = {
+      clientList: []
+    };
+
+    componentDidMount() {
+      Service.getClients().then(response => {
+        this.setState({clientList: response.data});
+      });
+    }
+
+    componentDidUpdate(nextProps) { 
+      if (nextProps.location.pathname === '')
+        this.componentDidMount();
+    }
+
     render() {
       return (
         <Container maxWidth="lg">
           <Content>               
             <Button component={Link} to={'/cadastro'} variant="contained" color="primary">Novo</Button>
-            <List>                  
-              <ListItem>
-                <ListItemText
-                  primary="Single-line item"
-                  secondary='Secondary text'
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary="Single-line item"
-                  secondary='Secondary text'
-                />
-              </ListItem>
-            </List>
+            <Content/>
+            <Card> 
+              <CardContent>
+                <List> 
+                {this.state.clientList.map(client => (                 
+                    <ListItem key={client._id}>
+                      <ListItemText
+                        primary={client.name}
+                        secondary={'R$ '+client.totalAmount}
+                      />
+                    </ListItem>
+                )
+                )}
+                </List>
+              </CardContent>
+            </Card>
           </Content>
         </Container>
       );

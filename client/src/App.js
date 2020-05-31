@@ -7,17 +7,11 @@ import Register from './pages/Register';
 class App extends Component {
 
   render() {
-    const styles = {
-      background: {
-        backgroundColor: "#e9e9e9",
-      }
-    };
-
     return (
-      <div style={styles.background}>
-        <Header/>
+      <div>
         <BrowserRouter>
-          <Switch>          
+          <Header/>   
+          <Switch>       
             <Route path="/" exact component={Home} />
             <Route path="/cadastro" exact component={Register} />
           </Switch>
