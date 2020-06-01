@@ -30,7 +30,14 @@ class Home extends Component {
               <CardContent>
                 <List> 
                 {this.state.clientList.map(client => (                 
-                    <ListItem key={client._id}>
+                    <ListItem 
+                      key={client._id} 
+                      button 
+                      component={Link} 
+                      to={{ 
+                        pathname: '/cadastro',
+                        state: client
+                      }} >
                       <ListItemText
                         primary={client.name}
                         secondary={'R$ '+client.totalAmount}

@@ -12,15 +12,19 @@ import * as yup from 'yup'
 class Register extends Component {
     constructor(props){
         super(props);
-        this.state ={
-            name: '',
-            date: new Date(),
-            location: '',
-            totalAmount: ''
+        if (props.location.state) {
+            this.state = props.location.state;
         }
+        else
+            this.state ={
+                name: '',
+                date: new Date(),
+                location: '',
+                totalAmount: ''
+            }
         this.saveClient = this.saveClient.bind(this);
     }
-
+    
     saveClient = (values, {setSubmitting}) => {
         Service.addClient(values)
             .then(res => {
@@ -125,14 +129,16 @@ class Register extends Component {
                                                     InputProps={{
                                                         startAdornment: <InputAdornment position="start">R$</InputAdornment>,
                                                     }}
-                                                    variant="outlined" />
+                                                    variant="outlined" 
+                                                    helperText={(errors.name && touched.name) && errors.name}
+                                                    error={errors.name && touched.name}/>
                                             </Grid>
                                         </Grid>
                                         <Grid container direction="row" justify="space-between" style={styles.action}>
                                             <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>
                                                 Salvar
                                             </Button>
-                                            <Button variant="outlined" onClick={handleReset} disabled={!dirty || isSubmitting}>
+                                            <Button variant="outlined" onClick={handleReset} disabled={!this.state}>
                                                 Limpar
                                             </Button>
                                         </Grid>
