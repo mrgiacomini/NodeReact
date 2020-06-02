@@ -130,8 +130,8 @@ class Register extends Component {
                                                         startAdornment: <InputAdornment position="start">R$</InputAdornment>,
                                                     }}
                                                     variant="outlined" 
-                                                    helperText={(errors.name && touched.name) && errors.name}
-                                                    error={errors.name && touched.name}/>
+                                                    helperText={(errors.totalAmount && touched.totalAmount) && errors.totalAmount}
+                                                    error={errors.totalAmount && touched.totalAmount}/>
                                             </Grid>
                                         </Grid>
                                         <Grid container direction="row" justify="space-between" style={styles.action}>
