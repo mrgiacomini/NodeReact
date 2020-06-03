@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Content } from "../styles";
-import { Container, Button, List, ListItem, ListItemText, Card, CardContent } from '@material-ui/core';
+import { Container, Button, List, ListItem, ListItemText, Card, CardContent, Divider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
 
@@ -30,8 +30,8 @@ class Home extends Component {
               <CardContent>
                 <List> 
                 {this.state.clientList.map(client => (                 
-                    <ListItem 
-                      key={client._id} 
+                    <div key={client._id}>
+                      <ListItem  
                       button 
                       component={Link} 
                       to={{ 
@@ -40,9 +40,11 @@ class Home extends Component {
                       }} >
                       <ListItemText
                         primary={client.name}
-                        secondary={'R$ '+client.totalAmount}
+                        secondary={'R$ '+ Number(client.totalAmount).toLocaleString('pt-BR')}
                       />
-                    </ListItem>
+                      </ListItem>                    
+                      <Divider variant="middle" />
+                    </div>
                 )
                 )}
                 </List>

@@ -8,6 +8,32 @@ import { ptBR } from "date-fns/locale";
 import Service from '../services/service';
 import { Formik } from 'formik';
 import * as yup from 'yup'
+import NumberFormat from 'react-number-format'
+
+function NumberFormatCustom(props) {
+    const { inputRef, onChange, ...other } = props;
+  
+    return (
+      <NumberFormat
+        {...other}
+        getInputRef={inputRef}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        isNumericString
+        thousandSeparator='.'
+        decimalSeparator=','
+        decimalScale={2}
+        fixedDecimalScale
+        placeholder="0,00"
+      />
+    );
+}
 
 class Register extends Component {
     constructor(props){
@@ -20,7 +46,8 @@ class Register extends Component {
                 name: '',
                 date: new Date(),
                 location: '',
-                totalAmount: ''
+                totalAmount: '',
+                description: ''
             }
         this.saveClient = this.saveClient.bind(this);
     }
@@ -28,9 +55,10 @@ class Register extends Component {
     saveClient = (values, {setSubmitting}) => {
         Service.addClient(values)
             .then(res => {
-                if (!res.data.errors)
+                if (!res.data.errors) {
                     console.log('Cliente salvo com sucesso.');
-                else 
+                    this.props.history.push('/');
+                } else 
                     console.log(res.message);
                 setSubmitting(false);
             });
@@ -39,7 +67,7 @@ class Register extends Component {
     render() {
         const validations = yup.object().shape({
             name: yup.string().required('Preencha o nome'),
-            totalAmount: yup.number().moreThan(0).required('Insira um valor')
+            totalAmount: yup.number().min(0, 'Insira um valor').required('Insira um valor')
         });        
 
         const styles  = {
@@ -65,7 +93,7 @@ class Register extends Component {
                         <CardContent>
                             <Formik initialValues={this.state} onSubmit={(values, {setSubmitting}) => this.saveClient(values, {setSubmitting})} validationSchema={validations}>              
                             {(props) => {
-                                const { values, touched, errors, dirty, isSubmitting, handleChange, handleBlur, handleSubmit, handleReset, } = props;
+                                const { values, touched, errors, isSubmitting, handleChange, handleBlur, handleSubmit, handleReset, } = props;
                                 return (
                                     <form onSubmit={handleSubmit}>
                                         <Grid container direction="column" justify="space-between" alignItems="stretch">
@@ -119,7 +147,7 @@ class Register extends Component {
                                             <Grid item lg style={styles.item}>
                                                 <TextField
                                                     fullWidth
-                                                    type="number"
+                                                    type="text"
                                                     label="Valor Total"
                                                     id="txtAmount"
                                                     name="totalAmount"
@@ -128,11 +156,26 @@ class Register extends Component {
                                                     onBlur={handleBlur}
                                                     InputProps={{
                                                         startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+                                                        inputComponent: NumberFormatCustom,
                                                     }}
                                                     variant="outlined" 
                                                     helperText={(errors.totalAmount && touched.totalAmount) && errors.totalAmount}
                                                     error={errors.totalAmount && touched.totalAmount}/>
                                             </Grid>
+                                        </Grid>
+                                        <Grid item lg style={styles.item}>             
+                                                <TextField
+                                                    fullWidth
+                                                    multiline
+                                                    rows={2}
+                                                    type="text"
+                                                    label="Descrição"
+                                                    id="txtDescription"
+                                                    name="description"
+                                                    value={values.description}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    variant="outlined" />
                                         </Grid>
                                         <Grid container direction="row" justify="space-between" style={styles.action}>
                                             <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>

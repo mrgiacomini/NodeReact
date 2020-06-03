@@ -5,7 +5,8 @@ const clientSchema = new mongoose.Schema({
     name: String,
     date: Date,
     location: String,
-    totalAmount: String
+    totalAmount: String,
+    description: String
 });
 
 module.exports = mongoose.model('Client', clientSchema);

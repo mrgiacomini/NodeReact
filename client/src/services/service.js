@@ -5,7 +5,6 @@ const API_BASE_URL = process.env.REACT_APP_API;
 class ApiService {
 
     getClients() {
-        console.log(process.env.REACT_APP_API)
         return axios.get(API_BASE_URL+'clients');
     }
 
