@@ -29,8 +29,9 @@ class Home extends Component {
             <Card> 
               <CardContent>
                 <List> 
-                {this.state.clientList.map(client => (                 
-                    <div key={client._id}>
+                {this.state.clientList.map((client, indice) => (                 
+                    <div key={client._id}> 
+                      { indice > 0 && <Divider variant="middle" />}
                       <ListItem  
                       button 
                       component={Link} 
@@ -38,15 +39,15 @@ class Home extends Component {
                         pathname: '/cadastro',
                         state: client
                       }} >
-                      <ListItemText
-                        primary={client.name}
-                        secondary={'R$ '+ Number(client.totalAmount).toLocaleString('pt-BR')}
-                      />
-                      </ListItem>                    
-                      <Divider variant="middle" />
+                        <ListItemText
+                          primary={client.name}
+                          secondary={'R$ '+ Number(client.totalAmount).toLocaleString('pt-BR')}
+                        />
+                      </ListItem>                   
                     </div>
                 )
                 )}
+                {!this.state.clientList.length && <ListItem><ListItemText primary="Sem clientes por enquanto."/></ListItem>}
                 </List>
               </CardContent>
             </Card>

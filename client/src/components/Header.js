@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 
-class Home extends Component {
+class Header extends Component {
     render() {
       return (
         <AppBar position="static">
@@ -22,4 +22,4 @@ class Home extends Component {
     }  
 };
 
-export default Home;
+export default Header;
