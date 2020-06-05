@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Content } from "../styles";
-import { Container, Button, List, ListItem, ListItemText, Card, CardContent, CardActionArea, Divider, Typography } from '@material-ui/core';
+import { Container, Button, List, ListItem, ListItemText, Card, CardContent, CardActionArea, Divider, 
+	Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
 
@@ -69,9 +70,14 @@ class Home extends Component {
 						<Typography gutterBottom variant="h5" component="h2">
 							{client.name}
 						</Typography>
+						<Grid container direction="row" justify="space-between">
 						<Typography variant="body2" color="textSecondary" component="p">
 							R$ {Number(client.totalAmount).toLocaleString('pt-BR')}
 						</Typography>
+						<Typography variant="body2" color="textSecondary" component="p">
+							R$ restante
+						</Typography>
+						</Grid>
 						</CardContent>
                   	</CardActionArea>
               	</Card>

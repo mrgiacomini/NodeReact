@@ -9,6 +9,7 @@ class Register extends Component {
         super(props);
         if (props.location.state) {
             this.state = props.location.state;
+            this.state.disabled = true;
         }
         else
             this.state ={

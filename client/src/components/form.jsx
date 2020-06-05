@@ -79,7 +79,8 @@ class Form extends React.Component {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 helperText={(errors.name && touched.name) && errors.name}
-                                error={errors.name && touched.name}/>
+                                error={errors.name && touched.name}
+                                disabled={values.disabled}/>
                         </Grid>
 
                         <Grid item lg style={styles.item}>
@@ -99,6 +100,7 @@ class Form extends React.Component {
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
+                                    disabled={values.disabled}
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>
@@ -112,7 +114,8 @@ class Form extends React.Component {
                                 name="location"
                                 value={values.location}
                                 onChange={handleChange}
-                                onBlur={handleBlur}/>   
+                                onBlur={handleBlur}
+                                disabled={values.disabled}/>   
                         </Grid>
 
                         <Grid item lg style={styles.item}>
@@ -131,7 +134,8 @@ class Form extends React.Component {
                                 }}
                                 variant="outlined" 
                                 helperText={(errors.totalAmount && touched.totalAmount) && errors.totalAmount}
-                                error={errors.totalAmount && touched.totalAmount}/>
+                                error={errors.totalAmount && touched.totalAmount}
+                                disabled={values.disabled}/>
                         </Grid>
                     </Grid>
                     <Grid item lg style={styles.item}>             
@@ -146,13 +150,14 @@ class Form extends React.Component {
                                 value={values.description}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                variant="outlined" />
+                                variant="outlined"
+                                disabled={values.disabled} />
                     </Grid>
                     <Grid container direction="row" justify="space-between" style={styles.action}>
-                        <Button variant="contained" color="primary" type="submit" disabled={isSubmitting}>
+                        <Button variant="contained" color="primary" type="submit" disabled={isSubmitting || this.props.data.disabled}>
                             Salvar
                         </Button>
-                        <Button variant="outlined" onClick={handleReset} disabled={!this.props.data}>
+                        <Button variant="outlined" onClick={handleReset} disabled={!this.props.data || this.props.data.disabled}>
                             Limpar
                         </Button>
                     </Grid>
