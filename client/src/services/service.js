@@ -13,15 +13,15 @@ class ApiService {
     }
 
     deleteClient(clientId) {
-        return axios.delete(API_BASE_URL + clientId);
+        return axios.delete(API_BASE_URL+clientId);
     }
 
     addClient(client) {
         return axios.post(API_BASE_URL+'addClient', client);
     }
 
-    editClient(client) {
-        return axios.put(API_BASE_URL + client.id, client);
+    updateClient(client) {
+        return axios.put(API_BASE_URL+'updateClient/'+client._id, client);
     }
 }
 

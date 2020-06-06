@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Content } from "../styles";
-import { Container, Button, List, ListItem, ListItemText, Card, CardContent, CardActionArea, Divider, 
+import { Container, Button, Card, CardContent, CardActionArea,  
 	Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
@@ -25,68 +25,46 @@ class Home extends Component {
     render() {
       return (
         <Container maxWidth="lg">
-          <Content>               
+            <Content>               
             <Button component={Link} to={'/cadastro'} variant="contained" color="primary">Novo</Button>
-            <Content/>
-            {/* <Card> 
-              <CardContent>
-                <List> 
-                {this.state.clientList.map((client, indice) => (                 
-                    <div key={client._id}> 
-                      { indice > 0 && <Divider variant="middle" />}
-                      <ListItem  
-                      button 
-                      component={Link} 
-                      to={{ 
-                        pathname: '/cadastro',
-                        state: client
-                      }} 
-                      style={{borderRadius: 4}}>
-                        <ListItemText
-                          primary={client.name}
-                          secondary={'R$ '+ Number(client.totalAmount).toLocaleString('pt-BR')}
-                          leftSubtitle={"esquerda"}
-                          rightSubtitle={"Direita"}
-                          chevron={{ color: 'white' }}
-                        />
-                      </ListItem>                   
-                    </div>
-                )
-                )}
-                {!this.state.clientList.length && this.state.didGetClientes 
-                  && <ListItem><ListItemText primary="Sem clientes por enquanto."/></ListItem>}
-                </List>
-              </CardContent>
-            </Card> */}
+            <Content/>            
             {this.state.clientList.map((client, indice) => (
-				<Card key={client._id} style={{marginBottom:10}}>
-					<CardActionArea 
-                      component={Link} 
-                      to={{ 
+                <Card key={client._id} style={{marginBottom:10}}>
+                    <CardActionArea 
+                    component={Link} 
+                    to={{ 
                         pathname: '/cadastro',
-                        state: client
-                      }} >
-						<CardContent>
-						<Typography gutterBottom variant="h5" component="h2">
-							{client.name}
-						</Typography>
-						<Grid container direction="row" justify="space-between">
-						<Typography variant="body2" color="textSecondary" component="p">
-							R$ {Number(client.totalAmount).toLocaleString('pt-BR')}
-						</Typography>
-						<Typography variant="body2" color="textSecondary" component="p">
-							R$ restante
-						</Typography>
-						</Grid>
-						</CardContent>
-                  	</CardActionArea>
-              	</Card>
-				)	 
-			)}
-          </Content>
+                        initialValues: client
+                    }} >
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                            {client.name}
+                            </Typography>
+                        <Grid container direction="row" justify="space-between">
+                            <Typography variant="body2" color="textSecondary" component="p">
+                            {Number(client.totalAmount).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })}
+                            </Typography>
+                            <Typography variant="body2" style={{color: '#999966'}} component="p">
+                            restante
+                            </Typography> 
+                            <Grid container direction="row" justify="space-between">
+                              <Typography variant="body2" style={{color: '#009900'}} component="p">
+                              R$ 0.00
+                              </Typography>
+                              <Typography variant="body2" style={{color: '#999966'}} component="p">
+                              R$ 0.00
+                              </Typography>
+                            </Grid>
+                        </Grid>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+                )	 
+            )}
+            </Content>
         </Container>
-      );
+        );
     }  
-};
+    };
 
 export default Home;

@@ -5,7 +5,7 @@ const keys = require('./config/keys');
 const cors = require('cors');
 require('./models/client');
 
-mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const app = express();
 app.use(cors());

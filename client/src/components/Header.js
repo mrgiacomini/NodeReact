@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+//import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
@@ -8,9 +8,9 @@ class Header extends Component {
       return (
         <AppBar position="static">
               <Toolbar>
-                  <IconButton edge="start" color="inherit" aria-label="Menu">
+                  {/* <IconButton edge="start" color="inherit" aria-label="Menu">
                       <MenuIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <Link to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                   <Typography variant="h6">
                      Giacomini Pinturas
