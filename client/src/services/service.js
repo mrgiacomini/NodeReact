@@ -4,8 +4,8 @@ const API_BASE_URL = process.env.REACT_APP_API;
 
 class ApiService {
 
-    getClients() {
-        return axios.get(API_BASE_URL+'clients');
+    getClients(userId) {
+        return axios.get(API_BASE_URL+'clients/'+userId);
     }
 
     getClientById(clientId) {
@@ -13,7 +13,7 @@ class ApiService {
     }
 
     deleteClient(clientId) {
-        return axios.delete(API_BASE_URL+clientId);
+        return axios.delete(API_BASE_URL+'deleteClient/'+clientId);
     }
 
     addClient(client) {
@@ -22,6 +22,10 @@ class ApiService {
 
     updateClient(client) {
         return axios.put(API_BASE_URL+'updateClient/'+client._id, client);
+    }
+
+    login(facebookData) {
+        return axios.post(API_BASE_URL+'facebooklogin', {userID: facebookData.userID, accessToken: facebookData.accessToken});
     }
 }
 

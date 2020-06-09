@@ -3,8 +3,9 @@ import { Content } from "../../styles";
 import { Container, Card, CardContent, CardHeader,  Divider, IconButton, Button } from '@material-ui/core';
 import Service from '../../services/service';
 import Form from '../../components/Form/form';
-import ConfirmationDialog from '../../components/dialogs/confirmation';
+import ConfirmationDialog from '../../components/Dialogs/confirmation';
 import { FiCheckCircle, FiTrash2 } from 'react-icons/fi';
+import { getCookie } from '../../helpers/auth';
 import './styles.css';
 
 
@@ -35,24 +36,28 @@ function Register (props) {
     });
 
     function saveClient(values) {
-        if (!client)
-            Service.addClient(values)
-                .then(res => {
-                    if (!res.data.errors) {
-                        setInitialValues({success: true});
-                        setTimeout(() => props.history.push('/'), 2000);
-                    } else 
-                        setInitialValues({success: false});                
+        const userLogged = getCookie('token');
+        if (userLogged) {
+            values.userId = userLogged;
+            if (!client) {
+                Service.addClient(values)
+                    .then(res => {
+                        if (!res.data.errors) {
+                            setInitialValues({success: true});
+                            setTimeout(() => props.history.push('/'), 2000);
+                        } else 
+                            setInitialValues({success: false});                
                 });
-        else 
-            Service.updateClient(values)
-                .then(res => {
-                    if (!res.data.errors) {
-                        setInitialValues({success: true});
-                        setTimeout(() => props.history.push('/'), 2000);
-                    } else 
-                        setInitialValues({success: false});                
-                });
+            } else 
+                Service.updateClient(values)
+                    .then(res => {
+                        if (!res.data.errors) {
+                            setInitialValues({success: true});
+                            setTimeout(() => props.history.push('/'), 2000);
+                        } else 
+                            setInitialValues({success: false});                
+                    });
+        }
     }
 
     function deleteClient() {

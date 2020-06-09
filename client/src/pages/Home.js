@@ -4,6 +4,7 @@ import { Container, Button, Card, CardContent, CardActionArea,
 	Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
+import { getCookie } from '../helpers/auth';
 
 class Home extends Component {
     state = {
@@ -12,9 +13,11 @@ class Home extends Component {
     };
 
     componentDidMount() {
-      Service.getClients().then(response => {
-        this.setState({clientList: response.data, didGetClientes: true });
-      });
+      const token = getCookie('token');
+      if (token !== 'undefined')
+        Service.getClients(token).then(response => {
+          this.setState({clientList: response.data, didGetClientes: true });
+        });
     }
 
     componentDidUpdate(nextProps) { 
