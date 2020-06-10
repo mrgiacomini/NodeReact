@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // require('./routes/authRoutes')(app);
 // require('./routes/clientRoutes')(app);
 
-//app.use(express.static(path.resolve(__dirname, "termos")));
+app.use(express.static(path.resolve(__dirname, "termos")));
 require('./routes/index')(app);
 
 if (process.env.NODE_ENV === 'production') {
