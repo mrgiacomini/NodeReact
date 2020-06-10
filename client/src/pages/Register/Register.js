@@ -5,7 +5,7 @@ import Service from '../../services/service';
 import Form from '../../components/Form/form';
 import ConfirmationDialog from '../../components/Dialogs/confirmation';
 import { FiCheckCircle, FiTrash2 } from 'react-icons/fi';
-import { getCookie } from '../../helpers/auth';
+import { getCookie, isAuth } from '../../helpers/auth';
 import './styles.css';
 
 
@@ -38,7 +38,7 @@ function Register (props) {
     function saveClient(values) {
         const userLogged = getCookie('token');
         if (userLogged) {
-            values.userId = userLogged;
+            values.userId = isAuth()._id;
             if (!client) {
                 Service.addClient(values)
                     .then(res => {

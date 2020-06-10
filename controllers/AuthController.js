@@ -1,13 +1,14 @@
-const User = require('../models/user');
-const expressJwt  = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-exports.requireSignin = () => {
-    return  expressJwt({
-        secret: process.env.JWT_SECRET // req.user._id
+const User = require('../models/user');
+const keys = require('../config/keys');
+
+function generateToken(params = {}) {
+    return jwt.sign(params, keys.JWT_SECRET, {
+      expiresIn: 86400,
     });
-};
+}
 
 exports.facebookLogin = (req, res) => {
     const { userID, accessToken } = req.body;
@@ -20,14 +21,10 @@ exports.facebookLogin = (req, res) => {
                 const { email, name } = response.data;
 
                 User.findOne({ email: email }).then((user) => {
-                   console.log(user)
                     if (user) {
-                        // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-                        //     expiresIn: '7d'
-                        // });
 
                         return res.json({
-                            //token,
+                            token: generateToken({id: user._id}),
                             user: user
                         });
                     } else {
@@ -36,15 +33,8 @@ exports.facebookLogin = (req, res) => {
                         
                         User.create(newUser)
                         .then((data) => {
-                           
-                            // const token = jwt.sign(
-                            // { _id: data._id },
-                            // process.env.JWT_SECRET,
-                            // { expiresIn: '7d' }
-                            // );
-
                             return res.json({
-                                //token,
+                                token: generateToken({id: user._id}),
                                 user: data
                             });
                         })
