@@ -35,7 +35,8 @@ export default function Login(props) {
                     callback={responseFacebook}
                     icon="fa-facebook"
                     textButton={<span style={{textTransform: 'none'}}>Entrar com o Facebook</span>}
-                    disableMobileRedirect={true}/>
+                    disableMobileRedirect={true}
+                    isMobile={false}/>
                 </div>
            
             </Content>
