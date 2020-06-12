@@ -34,7 +34,8 @@ export default function Login(props) {
                     onClick={componentClicked}
                     callback={responseFacebook}
                     icon="fa-facebook"
-                    textButton={<span style={{textTransform: 'none'}}>Entrar com o Facebook</span>}/>
+                    textButton={<span style={{textTransform: 'none'}}>Entrar com o Facebook</span>}
+                    disableMobileRedirect={true}/>
                 </div>
            
             </Content>
