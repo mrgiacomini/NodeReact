@@ -4,7 +4,7 @@ const authMiddleware = require('.././midleware/auth');
 
 const router = express.Router();
 
-router.use(authMiddleware);
+//router.use(authMiddleware);
 
 router.get('/clients', (req,res) => {
     Client.find({ userId: req.userId }).sort({ _id: 'desc'})
