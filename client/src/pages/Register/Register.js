@@ -3,7 +3,7 @@ import { Content } from "../../styles";
 import { Container, Card, CardContent, CardHeader,  Divider, IconButton, Button } from '@material-ui/core';
 import Service from '../../services/service';
 import Form from '../../components/Form/form';
-import ConfirmationDialog from '../../components/dialogs/confirmation';
+import ConfirmationDialog from '../../components/Dialogs/confirmation';
 import { FiCheckCircle, FiTrash2 } from 'react-icons/fi';
 import { getCookie, isAuth } from '../../helpers/auth';
 import './styles.css';

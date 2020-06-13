@@ -7,7 +7,7 @@ import { authenticate, isAuth } from '../../helpers/auth';
 import './styles.css';
 
 export default function Login(props) {
-    const responseFacebook = response => {        
+    const responseFacebook = response => {     
         LoginService.login(response)
         .then(res => {
             authenticate(res, () => {
@@ -31,6 +31,7 @@ export default function Login(props) {
                     appId="3115359865198631"
                     autoLoad={false}
                     fields="name,email,picture"
+                    language="pt_BR"
                     onClick={componentClicked}
                     callback={responseFacebook}
                     icon="fa-facebook"

@@ -4,12 +4,15 @@ const authMiddleware = require('.././midleware/auth');
 
 const router = express.Router();
 
-//router.use(authMiddleware);
+router.use(authMiddleware);
 
 router.get('/clients', (req,res) => {
-    Client.find({ userId: req.userId }).sort({ _id: 'desc'})
-    .then(clients => res.json(clients))
-    .catch(error => res.json(error))    
+    if (!!req.userId)
+        Client.find({ userId: req.userId }).sort({ _id: 'desc'})
+        .then(clients => res.json(clients))
+        .catch(error => res.json(error))    
+    else 
+        res.json();
 });
 
 router.post('/addClient', (req, res) => {
