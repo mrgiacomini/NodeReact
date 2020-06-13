@@ -2,35 +2,21 @@ const Client = require('../models/client');
 const express = require('express');
 const authMiddleware = require('.././midleware/auth');
 
+const ClientController = require('../controllers/ClientController');
+const EmailController = require('../controllers/EmailController');
+
 const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/clients', (req,res) => {
-    if (!!req.userId)
-        Client.find({ userId: req.userId }).sort({ _id: 'desc'})
-        .then(clients => res.json(clients))
-        .catch(error => res.json(error))    
-    else 
-        res.json();
-});
+router.get('/clients', (req,res) => ClientController.getByUser(req,res));
 
-router.post('/addClient', (req, res) => {
-    Client.create(req.body)
-    .then(client => res.json(client))
-    .catch(error => res.json(error))
-});
+router.post('/addClient', (req, res) => ClientController.addClient(req,res));
 
-router.put('/updateClient/:id', (req, res) => {
-    Client.findByIdAndUpdate(req.params.id, req.body)
-    .then(client => res.json(client))
-    .catch(error => res.json(error))
-});
+router.put('/updateClient/:id', (req, res) => ClientController.updateClient(req,res));
 
-router.delete('/deleteClient/:id', (req, res) => {
-    Client.findByIdAndDelete(req.params.id)
-    .then(client => res.json(client))
-    .catch(error => res.json(error))
-});
+router.delete('/deleteClient/:id', (req, res) => ClientController.deleteClient(req,res));
+
+router.get('/sendEmail', (req, res) => EmailController.sendEmail(req,res));
 
 module.exports = app => app.use('/', router);
