@@ -19,4 +19,4 @@ router.delete('/deleteClient/:id', (req, res) => ClientController.deleteClient(r
 
 //router.get('/sendEmail', (req, res) => EmailController.sendEmail(req,res));
 
-module.exports = app => app.use('/', router);
+module.exports = app => app.use('/api', router);

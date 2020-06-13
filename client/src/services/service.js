@@ -3,6 +3,7 @@ import api from './api';
 class ApiService {
 
     getClients(userId) {
+        console.log(process.env.REACT_APP_API)
         return api.get('clients');
     }
 
