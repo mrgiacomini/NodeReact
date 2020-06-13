@@ -37,7 +37,7 @@ export default function Login(props) {
                     textButton={<span style={{textTransform: 'none'}}>Entrar com o Facebook</span>}
                     disableMobileRedirect={true}
                     isMobile={false}
-                    redirectUri='https://teste-fb-login.herokuapp.com'/>
+                    redirectUri='https://teste-fb-login.herokuapp.com/'/>
                 </div>
            
             </Content>
