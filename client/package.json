@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.2.10",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -12,6 +13,7 @@
     "formik": "^2.1.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-facebook-login": "git://github.com/keppelen/react-facebook-login.git",
     "react-icons": "^3.10.0",
     "react-number-format": "^4.4.1",
     "react-scripts": "3.4.1",

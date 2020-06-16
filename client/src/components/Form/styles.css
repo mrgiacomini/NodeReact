@@ -6,3 +6,9 @@
 .action {
   padding: 8px;
 }
+
+.whatsapp {
+  color: rgb(7,188,76);
+  height: 25px;
+  width: 25px;
+}

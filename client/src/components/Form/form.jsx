@@ -8,6 +8,7 @@ import * as yup from 'yup'
 import NumberFormat from 'react-number-format'
 import './styles.css';
 import { FiPhoneForwarded } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 
 
 function Form(props) {
@@ -100,11 +101,18 @@ function Form(props) {
                                         disabled={values.disabled}/>
                                 </Grid>                                
                                 { !!values.phone && !!client._id && 
+                                    <>
                                     <Grid item xs={1} className="item" style={{paddingLeft: '0'}}>  
                                         <a href={'tel:'+values.phone}>
                                         <FiPhoneForwarded size={20}/>
                                         </a>
                                     </Grid>
+                                    <Grid item xs={1} className="item" style={{paddingLeft: '0'}}>  
+                                        <a href={'https://api.whatsapp.com/send?phone=55'+values.phone} target="_blank" rel="noopener noreferrer">
+                                        <FaWhatsapp className="whatsapp"/>
+                                        </a>
+                                    </Grid>
+                                    </>
                                 }
                             </Grid>
                             <Grid item lg className="item">

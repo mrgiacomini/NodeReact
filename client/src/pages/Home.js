@@ -4,17 +4,21 @@ import { Container, Button, Card, CardContent, CardActionArea,
 	Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
+import { getCookie } from '../helpers/auth';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 class Home extends Component {
     state = {
       clientList: [],
-      didGetClientes: false
+      didGetClients: false
     };
 
     componentDidMount() {
-      Service.getClients().then(response => {
-        this.setState({clientList: response.data, didGetClientes: true });
-      });
+      const token = getCookie('token');
+      if (token !== 'undefined')     
+        Service.getClients(token).then(response => {
+          this.setState({clientList: response.data, didGetClients: true });
+        });
     }
 
     componentDidUpdate(nextProps) { 
@@ -28,7 +32,31 @@ class Home extends Component {
             <Content>               
             <Button component={Link} to={'/cadastro'} variant="contained" color="primary">Novo</Button>
             <Content/>            
-            {this.state.clientList.map((client, indice) => (
+            { !this.state.didGetClients && !this.state.clientList.length ?
+              (<>
+                <Card style={{marginBottom:10}}>
+                  <Skeleton variant="rect" width="100%" height={100} animation="pulse"/>
+                </Card> 
+                <Card style={{marginBottom:10}}>
+                  <Skeleton variant="rect" width="100%" height={100} animation="pulse"/>
+                </Card>
+                <Card style={{marginBottom:10}}>
+                  <Skeleton variant="rect" width="100%" height={100} animation="pulse"/>
+                </Card>
+                <Card style={{marginBottom:10}}>
+                  <Skeleton variant="rect" width="100%" height={100} animation="pulse"/>
+                </Card>
+                </>
+              )
+              : 
+              ( this.state.didGetClients && !this.state.clientList.length ?
+                (
+                  <Typography variant="body2" color="textSecondary" component="p" align="center">
+                      nenhum cliente cadastrado
+                  </Typography>
+                ) :
+                (
+                this.state.clientList.map((client, indice) => (
                 <Card key={client._id} style={{marginBottom:10}}>
                     <CardActionArea 
                     component={Link} 
@@ -59,8 +87,9 @@ class Home extends Component {
                         </CardContent>
                     </CardActionArea>
                 </Card>
-                )	 
-            )}
+                )	
+              ) 
+            ))}
             </Content>
         </Container>
         );

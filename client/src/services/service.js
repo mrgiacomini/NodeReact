@@ -1,27 +1,25 @@
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API;
+import api from './api';
 
 class ApiService {
 
-    getClients() {
-        return axios.get(API_BASE_URL+'clients');
+    getClients(userId) {
+        return api.get('clients');
     }
 
     getClientById(clientId) {
-        return axios.get(API_BASE_URL + clientId);
+        return api.get(clientId);
     }
 
     deleteClient(clientId) {
-        return axios.delete(API_BASE_URL+clientId);
+        return api.delete('deleteClient/'+clientId);
     }
 
     addClient(client) {
-        return axios.post(API_BASE_URL+'addClient', client);
+        return api.post('addClient', client);
     }
 
     updateClient(client) {
-        return axios.put(API_BASE_URL+'updateClient/'+client._id, client);
+        return api.put('updateClient/'+client._id, client);
     }
 }
 
