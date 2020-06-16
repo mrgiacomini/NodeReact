@@ -27,6 +27,7 @@ function Register (props) {
     const [initialValues, setInitialValues] = useState({
         name: '',
         phone: '',
+        email: '',
         date: new Date(),
         location: '',
         totalAmount: '',

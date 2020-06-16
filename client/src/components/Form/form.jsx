@@ -53,6 +53,7 @@ function Form(props) {
 
     const validations = yup.object().shape({
         name: yup.string().required('Preencha o nome'),
+        email: yup.string().email('Email não é válido'),
         totalAmount: yup.number().min(0, 'Insira um valor').required('Insira um valor')
     });   
 
@@ -115,7 +116,23 @@ function Form(props) {
                                     </>
                                 }
                             </Grid>
+                            
                             <Grid item lg className="item">
+                                <TextField 
+                                    fullWidth 
+                                    id="txtEmail" 
+                                    label="Email" 
+                                    variant="outlined" 
+                                    name="email"
+                                    value={values.email  || ''}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    disabled={values.disabled}
+                                    helperText={(errors.email && touched.email) && errors.email}
+                                    error={errors.email && touched.email}/>   
+                            </Grid>
+
+                            <Grid item lg className="item" style={{marginTop: 20}}>
                                 <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
                                     <KeyboardDatePicker
                                         fullWidth
@@ -170,27 +187,40 @@ function Form(props) {
                                     disabled={values.disabled}/>
                             </Grid>
                         </Grid>
-                        <Grid item lg className="item">             
-                                <TextField
-                                    fullWidth
-                                    multiline
-                                    rows={countTextRows(values.description)}
-                                    type="text"
-                                    label="Descrição"
-                                    id="txtDescription"
-                                    name="description"
-                                    value={values.description || ''}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    variant="outlined"
-                                    disabled={values.disabled} />
+                        <Grid container direction="row" justify="center" alignItems="center">
+                            <Grid item xs className="item">             
+                                    <TextField
+                                        fullWidth
+                                        multiline
+                                        rows={countTextRows(values.description)}
+                                        type="text"
+                                        label="Descrição"
+                                        id="txtDescription"
+                                        name="description"
+                                        value={values.description || ''}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        variant="outlined"
+                                        disabled={values.disabled} />
+                            </Grid>
+                            {/* { !!values.description && !!client._id && 
+                                <>
+                                <Grid item xs={1} className="item" style={{paddingLeft: '0'}}>  
+                                    <a href={'mailto:'+values.email+'?&body='+values.description} target="_blank" rel="noopener noreferrer">
+                                    Enviar
+                                    </a>
+                                </Grid>
+                                
+                                </>
+                            } */}
                         </Grid>
+
                         <Grid container direction="row" justify="space-between" className="action">
-                            <Button variant="contained" color="primary" type="submit" disabled={isSubmitting || (props.data && props.data.disabled)}>
-                                Salvar
-                            </Button>
                             <Button variant="outlined" onClick={cancelForm}>
                                 Limpar
+                            </Button>
+                            <Button variant="contained" color="primary" type="submit" disabled={isSubmitting || (props.data && props.data.disabled)}>
+                                Salvar
                             </Button>
                         </Grid>
                     </form> 
