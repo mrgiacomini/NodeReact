@@ -14,7 +14,6 @@ exports.facebookLogin = (req, res) => {
     const { userID, accessToken } = req.body;
 
     const url = `https://graph.facebook.com/${userID}/?fields=id,name,email&access_token=${accessToken}`;
-    console.log('get na url '+ url);
     return (
         axios.get(url)
             .then(response => {

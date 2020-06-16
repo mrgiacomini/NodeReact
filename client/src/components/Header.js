@@ -15,19 +15,17 @@ function Header(props) {
             <Toolbar>
                 {/* <IconButton edge="start" color="inherit" aria-label="Menu">
                     <MenuIcon />
-                </IconButton> 
-                <Link to={'/'} style={{ textDecoration: 'none', color: 'white' }}> */}
-                <Grid container direction="row" justify="space-between" alignItems="baseline">
+                </IconButton>  */}
+                <Grid container direction="row" justify="space-between" alignItems="center">
                     <Typography variant="h6" component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                         Giacomini Pinturas
                     </Typography>
                     { props.loggedIn &&
                         <Typography variant="subtitle1" onClick={logout} component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
-                            sair  <FiLogOut/>
+                            sair <FiLogOut/>
                         </Typography>
                     }
                 </Grid>
-                {/* </Link> */}
             </Toolbar>
         </AppBar>
     );

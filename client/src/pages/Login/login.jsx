@@ -20,9 +20,6 @@ export default function Login(props) {
         });
     };
 
-    const componentClicked = () => {
-    }
-
     return (
         <Container maxWidth="lg">
             <Content>
@@ -32,7 +29,6 @@ export default function Login(props) {
                     autoLoad={false}
                     fields="name,email,picture"
                     language="pt_BR"
-                    onClick={componentClicked}
                     callback={responseFacebook}
                     icon="fa-facebook"
                     textButton={<span style={{textTransform: 'none'}}>Entrar com o Facebook</span>}
