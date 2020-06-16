@@ -3,12 +3,10 @@ import cookie from 'js-cookie'
 // Set in Cookie
 export const setCookie = (key, value) => {
     if (window !== 'undefiend') {
-        setTimeout(() => {
-            cookie.set(key, value, {
-                // 1 Day
-                expires: 1
-            }) 
-        }, 500);
+        cookie.set(key, value, {
+            // 1 Day
+            expires: 1
+        }) 
     }
 }
 // remove from cookie
@@ -47,7 +45,7 @@ export const removeLocalStorage = key => {
 export const authenticate = (response, next) => {
     setCookie('token', response.data.token);
     setLocalStorage('user', response.data.user);
-    next();
+    setTimeout(() => next(), 500);
 };
 
 // Access user info from localstorage

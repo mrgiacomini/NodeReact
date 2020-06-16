@@ -10,12 +10,6 @@ function generateToken(params = {}) {
     });
 }
 
-exports.teste = (req,res) => {
-    return res.json({
-        message: 'teste'
-    });
-}
-
 exports.facebookLogin = (req, res) => {
     const { userID, accessToken } = req.body;
 
@@ -24,12 +18,9 @@ exports.facebookLogin = (req, res) => {
     return (
         axios.get(url)
             .then(response => {
-                console.log('get sucesso');
                 const { email, name } = response.data;
-                console.log('find user');
                 User.findOne({ email: email }).then((user) => {
                     if (user) {
-                        console.log('user encontrado');
                         return res.json({
                             token: generateToken({id: user._id}),
                             user: user
@@ -37,10 +28,8 @@ exports.facebookLogin = (req, res) => {
                     } else {
 
                         let newUser = new User({ name, email });
-                        console.log('criando usuario');
                         User.create(newUser)
                         .then((data) => {
-                            console.log('usuario criado');
                             return res.json({
                                 token: generateToken({id: user._id}),
                                 user: data
@@ -51,7 +40,6 @@ exports.facebookLogin = (req, res) => {
                 });
             })
             .catch(error => {
-                console.log('erro no get');
                 res.json({
                     error
                 });
