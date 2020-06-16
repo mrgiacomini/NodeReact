@@ -1,9 +1,12 @@
 const nodemailer = require("nodemailer");
-const { getMaxListeners } = require("../models/user");
+const keys = require('../config/keys');
 
 exports.sendEmail = async (req,res) => {    
-    const user = process.env.EMAIL_USER;
-    const pass = process.env.EMAIL__PASS_USER;
+    const user = keys.EMAIL_USER;
+    const pass = keys.EMAIL_PASS_USER;
+
+    const emailTo = req.body.email;
+    const description = req.body.description;
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -12,20 +15,19 @@ exports.sendEmail = async (req,res) => {
             pass: pass
         }
     });
-    console.log('transport')
-
+    
     var mailOptions = {
         from: user,
-        to: "matheus.dua@hotmail.com",
-        subject: 'Enviando um email pelo Node.js',
-        text: 'Muito fácil enviar um email pelo node, tente você também!'
+        to: emailTo,
+        subject: '',
+        text: description
     };
-    console.log('enviando')
+    
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-            console.log(error);
+            return res.json(error);
         } else {
-            console.log('Email enviado: ' + info.response);
+            return res.json(info.response);
         }
     });
 

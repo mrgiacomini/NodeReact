@@ -21,6 +21,10 @@ class ApiService {
     updateClient(client) {
         return api.put('updateClient/'+client._id, client);
     }
+
+    sendEmail(client) {
+        return api.post('sendEmail', client);
+    }
 }
 
 export default new ApiService();
