@@ -6,4 +6,5 @@ module.exports = routes => {
     //Facebook Login
     
     routes.post('/facebooklogin', (req,res) => AuthController.facebookLogin(req,res));
+    routes.post('/teste', (req,res) => AuthController.teste(req,res));
 };

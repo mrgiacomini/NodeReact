@@ -10,6 +10,12 @@ function generateToken(params = {}) {
     });
 }
 
+exports.teste = (req,res) => {
+    return res.json({
+        message: 'teste'
+    });
+}
+
 exports.facebookLogin = (req, res) => {
     const { userID, accessToken } = req.body;
 
