@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.resolve(__dirname, "termos")));
-require('./routes/index')(app);
+
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
@@ -24,5 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 
 }
 
+require('./routes/index')(app);
 
 app.listen(keys.PORT);
