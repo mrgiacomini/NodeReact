@@ -3,10 +3,12 @@ import cookie from 'js-cookie'
 // Set in Cookie
 export const setCookie = (key, value) => {
     if (window !== 'undefiend') {
-        cookie.set(key, value, {
-            // 1 Day
-            expires: 1
-        }) 
+        setTimeout(() => {
+            cookie.set(key, value, {
+                // 1 Day
+                expires: 1
+            }) 
+        }, 500);
     }
 }
 // remove from cookie
