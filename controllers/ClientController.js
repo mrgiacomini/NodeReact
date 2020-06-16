@@ -1,6 +1,8 @@
 const Client = require('../models/client');
 
 exports.getByUser = (req,res) => {
+    console.log('getbyuser');
+    console.log(req.userId);
         if (!!req.userId)
             Client.find({ userId: req.userId }).sort({ _id: 'desc'})
             .then(clients => res.json(clients))
