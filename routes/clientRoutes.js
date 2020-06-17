@@ -17,6 +17,10 @@ router.put('/updateClient/:id', (req, res) => ClientController.updateClient(req,
 
 router.delete('/deleteClient/:id', (req, res) => ClientController.deleteClient(req,res));
 
-//router.get('/sendEmail', (req, res) => EmailController.sendEmail(req,res));
+router.post('/sendEmail', (req, res) => EmailController.sendEmail(req,res));
+
+router.post('/addPayment', (req, res) => ClientController.addPayment(req,res) );
+
+router.post('/payments', (req, res) => ClientController.getPayments(req,res) );
 
 module.exports = app => app.use('/api', router);

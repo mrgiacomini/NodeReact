@@ -1,30 +1,34 @@
 const nodemailer = require("nodemailer");
-const { getMaxListeners } = require("../models/user");
+const keys = require('../config/keys');
 
-exports.sendEmail = async (req,res) => {
-    let testAccount = await nodemailer.createTestAccount();
+exports.sendEmail = async (req,res) => {    
+    const user = keys.EMAIL_USER;
+    const pass = keys.EMAIL_PASS_USER;
 
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
+    const emailTo = req.body.email;
+    const description = req.body.description;
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
-            user: "matheusramosgiacomini@gmail.com", // generated ethereal user
-            pass: "matramgia192637", // generated ethereal password
-        },
+            user: user,
+            pass: pass
+        }
     });
-
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
-        from: 'matheusramosgiacomini@gmail.com', // sender address
-        to: "matheus.dua@hotmail.com", // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
+    
+    var mailOptions = {
+        from: user,
+        to: emailTo,
+        subject: '',
+        text: description
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            return res.json(error);
+        } else {
+            return res.json(info.response);
+        }
     });
-
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
 };

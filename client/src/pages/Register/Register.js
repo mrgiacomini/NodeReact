@@ -27,6 +27,7 @@ function Register (props) {
     const [initialValues, setInitialValues] = useState({
         name: '',
         phone: '',
+        email: '',
         date: new Date(),
         location: '',
         totalAmount: '',
@@ -73,6 +74,13 @@ function Register (props) {
                 });
     }
 
+    function sendEmail() {
+        Service.sendEmail(client)
+            .then(res => {
+                console.log('enviado');
+            });
+    }
+
     return (
             <Container maxWidth="lg">
                 <Content>
@@ -88,7 +96,11 @@ function Register (props) {
                             }/> 
                         <Divider variant="middle"/>
                         <CardContent>
-                            <Form initialValues={client ? client : initialValues} saveClient={saveClient}></Form>
+                            <Form 
+                                initialValues={client ? client : initialValues} 
+                                saveClient={saveClient}
+                                sendEmail={sendEmail}
+                            />
                         </CardContent>
                     </Card>
                     { initialValues.success &&

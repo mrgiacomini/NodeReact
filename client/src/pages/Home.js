@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Content } from "../styles";
-import { Container, Button, Card, CardContent, CardActionArea,  
-	Grid, Typography } from '@material-ui/core';
+import { Container, Button, Card, CardContent, Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
 import { getCookie } from '../helpers/auth';
 import Skeleton from '@material-ui/lab/Skeleton';
+import {FaCashRegister} from 'react-icons/fa';
 
 class Home extends Component {
     state = {
@@ -58,34 +58,51 @@ class Home extends Component {
                 (
                 this.state.clientList.map((client, indice) => (
                 <Card key={client._id} style={{marginBottom:10}}>
-                    <CardActionArea 
-                    component={Link} 
-                    to={{ 
-                        pathname: '/cadastro',
-                        initialValues: client
-                    }} >
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                            {client.name}
-                            </Typography>
-                        <Grid container direction="row" justify="space-between">
-                            <Typography variant="body2" color="textSecondary" component="p">
-                            {Number(client.totalAmount).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })}
-                            </Typography>
-                            <Typography variant="body2" style={{color: '#999966'}} component="p">
-                            restante
-                            </Typography> 
-                            <Grid container direction="row" justify="space-between">
-                              <Typography variant="body2" style={{color: '#009900'}} component="p">
-                              R$ 0.00
+                          <Grid container direction="row" >
+                            <Grid item xs={10} component={Link} 
+                              to={{ 
+                                  pathname: '/cadastro',
+                                  initialValues: client
+                              }} style={{ textDecoration: 'none', color: 'inherit' }}
+                              >
+
+                              <Typography gutterBottom variant="h5" component="h2">
+                              {client.name}
                               </Typography>
-                              <Typography variant="body2" style={{color: '#999966'}} component="p">
-                              R$ 0.00
-                              </Typography>
+                              <Grid container direction="row" justify="space-between">
+                                  <Typography variant="body2" color="textSecondary" component="p">
+                                  {Number(client.totalAmount).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })}
+                                  </Typography>
+                                  <Typography variant="body2" style={{color: '#999966'}} component="p">
+                                  restante
+                                  </Typography> 
+                                  <Grid container direction="row" justify="space-between">
+                                    <Typography variant="body2" style={{color: '#009900'}} component="p">
+                                    R$ 0.00
+                                    </Typography>
+                                    <Typography variant="body2" style={{color: '#999966'}} component="p">
+                                    R$ 0.00
+                                    </Typography>
+                                  </Grid>
+                              </Grid>                              
                             </Grid>
-                        </Grid>
+                            <Grid item xs={2} >
+                              <Grid container direction="column" justify="space-between" alignItems="flex-end" >
+                                  <Grid item>  
+                                      <Link  
+                                        to={{ 
+                                            pathname: '/pagamentos',
+                                            client: client
+                                        }}>
+                                      <FaCashRegister size={25} style={{ textDecoration: 'none', color: 'black' }}/>
+                                    </Link>
+                                  </Grid>                    
+                              </Grid>
+
+                            </Grid>
+                          </Grid>
                         </CardContent>
-                    </CardActionArea>
                 </Card>
                 )	
               ) 
