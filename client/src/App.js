@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Home from "./pages/Home";
-import Header from "./components/Header";
+//import Header from "./components/Header";
 import PrivateRoute from "./components/Routes/private";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Register from './pages/Register/Register';
 import Login from './pages/Login/login';
 import { isAuth } from './helpers/auth';
+import Drawer from "./components/Drawer/drawer";
 
 class App extends Component {
   constructor(props){
@@ -35,13 +36,20 @@ class App extends Component {
     return (
       <div>
         <BrowserRouter> 
-          <Header loggedIn={this.state.loggedIn} handleLogout={this.handleLogout}/>   
-          <Switch>       
-            <Route path="/login" exact render={(props) => <Login {...props} handleLogin={this.handleLogin} />}/>
-            <PrivateRoute path="/" exact component={Home} />
-            <PrivateRoute path="/cadastro" exact component={Register} />
-          </Switch>
+          {/* <Header loggedIn={this.state.loggedIn} handleLogout={this.handleLogout}/>    */}
+          <Drawer 
+            content={
+              <Switch>       
+                <Route path="/login" exact render={(props) => <Login {...props} handleLogin={this.handleLogin} />}/>
+                <PrivateRoute path="/" exact component={Home} />
+                <PrivateRoute path="/cadastro" exact component={Register} />
+              </Switch>
+            }
+            loggedIn={this.state.loggedIn} 
+            handleLogout={this.handleLogout}
+          />
         </BrowserRouter>
+        
       </div>
     );
   }

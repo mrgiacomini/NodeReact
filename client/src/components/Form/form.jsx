@@ -1,5 +1,5 @@
 import  React, { useState, useEffect } from 'react';
-import {  Grid, TextField,  InputAdornment, Button, IconButton } from '@material-ui/core'
+import {  Grid, TextField,  InputAdornment, Button } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import { ptBR } from "date-fns/locale";
@@ -9,8 +9,8 @@ import NumberFormat from 'react-number-format'
 import './styles.css';
 import { FiPhoneForwarded } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
-import { RiMailSendLine } from 'react-icons/ri';
-import { AiOutlineFileSearch } from 'react-icons/ai';
+// import { RiMailSendLine } from 'react-icons/ri';
+// import { AiOutlineFileSearch } from 'react-icons/ai';
 
 function Form(props) {
 
@@ -62,9 +62,9 @@ function Form(props) {
         setClient({});
     } 
 
-    function viewEmail() {
-        return;
-    } 
+    // function viewEmail() {
+    //     return;
+    // } 
 
     return (
         <Formik enableReinitialize={true}
