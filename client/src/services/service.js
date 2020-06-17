@@ -24,6 +24,14 @@ class ApiService {
 
     sendEmail(client) {
         return api.post('sendEmail', client);
+    }    
+
+    addPayment(payment) {
+        return api.post('addPayment', payment);
+    }
+
+    getPayments(clientId) {
+        return api.post('payments', {clientId: clientId});
     }
 }
 

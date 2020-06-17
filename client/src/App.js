@@ -7,6 +7,7 @@ import Register from './pages/Register/Register';
 import Login from './pages/Login/login';
 import { isAuth } from './helpers/auth';
 import Drawer from "./components/Drawer/drawer";
+import Payments from './pages/Payments/payments';
 
 class App extends Component {
   constructor(props){
@@ -43,6 +44,8 @@ class App extends Component {
                 <Route path="/login" exact render={(props) => <Login {...props} handleLogin={this.handleLogin} />}/>
                 <PrivateRoute path="/" exact component={Home} />
                 <PrivateRoute path="/cadastro" exact component={Register} />
+                {/* <PrivateRoute path="/cliente" exact component={Client} /> */}
+                <PrivateRoute path="/pagamentos" exact component={Payments} />
               </Switch>
             }
             loggedIn={this.state.loggedIn} 

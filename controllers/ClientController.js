@@ -1,4 +1,5 @@
 const Client = require('../models/client');
+const Payment = require('../models/payment');
 
 exports.getByUser = (req,res) => {
         if (!!req.userId)
@@ -26,3 +27,15 @@ exports.deleteClient = (req, res) => {
     .then(client => res.json(client))
     .catch(error => res.json(error))
 };
+
+exports.getPayments = (req, res) => {
+    Payment.find({ clientId: req.body.clientId })
+    .then(payments => res.json(payments))
+    .catch(error => res.json(error))    
+}
+
+exports.addPayment = (req, res) => {
+    Payment.create(req.body)
+    .then(payment => res.json(payment))
+    .catch(error => res.json(error))    
+}

@@ -19,4 +19,8 @@ router.delete('/deleteClient/:id', (req, res) => ClientController.deleteClient(r
 
 router.post('/sendEmail', (req, res) => EmailController.sendEmail(req,res));
 
+router.post('/addPayment', (req, res) => ClientController.addPayment(req,res) );
+
+router.post('/payments', (req, res) => ClientController.getPayments(req,res) );
+
 module.exports = app => app.use('/api', router);
