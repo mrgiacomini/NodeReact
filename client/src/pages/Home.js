@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Content } from "../styles";
-import { Container, Button, Card, CardContent, Grid, Typography } from '@material-ui/core';
+import { Container, Button, Card, CardContent, Grid, Typography, Badge, Tooltip } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
 import { getCookie } from '../helpers/auth';
@@ -14,11 +14,13 @@ class Home extends Component {
     };
 
     componentDidMount() {
-      const token = getCookie('token');
-      if (token !== 'undefined')     
-        Service.getClients(token).then(response => {
-          this.setState({clientList: response.data, didGetClients: true });
-        });
+      var token = getCookie('token');
+      if (token === undefined)
+        setTimeout(() => {token = getCookie('token');}, 500);
+          
+      Service.getClients(token).then(response => {
+        this.setState({clientList: response.data, didGetClients: true });
+      });
     }
 
     componentDidUpdate(nextProps) { 
@@ -71,7 +73,7 @@ class Home extends Component {
                               {client.name}
                               </Typography>
                               <Grid container direction="row" justify="space-between">
-                                  <Typography variant="body2" color="textSecondary" component="p">
+                                  <Typography variant="body2" color="textPrimary" component="p">
                                   {Number(client.totalAmount).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })}
                                   </Typography>
                                   <Typography variant="body2" style={{color: '#999966'}} component="p">
@@ -79,27 +81,45 @@ class Home extends Component {
                                   </Typography> 
                                   <Grid container direction="row" justify="space-between">
                                     <Typography variant="body2" style={{color: '#009900'}} component="p">
-                                    R$ 0.00
+                                      {/* total dos pagamentos */}
+                                      {Number(client.totalPayments).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })}
                                     </Typography>
-                                    <Typography variant="body2" style={{color: '#999966'}} component="p">
-                                    R$ 0.00
+                                    <Typography variant="body2" style={{color: (+client.totalAmount - +client.totalPayments) < 0 ? 'red' : '#999966'}} component="p">
+                                      {/* restante */}                                      
+                                      { 
+                                        Number(+client.totalAmount - +client.totalPayments).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })
+                                      }
                                     </Typography>
                                   </Grid>
                               </Grid>                              
                             </Grid>
                             <Grid item xs={2} >
                               <Grid container direction="column" justify="space-between" alignItems="flex-end" >
-                                  <Grid item>  
-                                      <Link  
-                                        to={{ 
-                                            pathname: '/pagamentos',
-                                            client: client
-                                        }}>
-                                      <FaCashRegister size={25} style={{ textDecoration: 'none', color: 'black' }}/>
-                                    </Link>
-                                  </Grid>                    
+                                <Grid item> 
+                                  <Badge
+                                    badgeContent={client.quantityPayments}
+                                    color="primary"
+                                    showZero
+                                    anchorOrigin={{
+                                      vertical: 'bottom',
+                                      horizontal: 'left',
+                                    }}
+                                  >
+                                    <Link  
+                                      to={{ 
+                                          pathname: '/pagamentos',
+                                          client: client
+                                      }}
+                                    >  
+                                      <Tooltip title="Pagamentos" arrow> 
+                                        <span>                               
+                                        <FaCashRegister size={25} style={{ textDecoration: 'none', color: 'black' }}/>
+                                        </span>
+                                      </Tooltip>  
+                                    </Link> 
+                                  </Badge>
+                                </Grid>                    
                               </Grid>
-
                             </Grid>
                           </Grid>
                         </CardContent>

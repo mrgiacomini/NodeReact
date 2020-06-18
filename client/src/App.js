@@ -8,6 +8,7 @@ import Login from './pages/Login/login';
 import { isAuth } from './helpers/auth';
 import Drawer from "./components/Drawer/drawer";
 import Payments from './pages/Payments/payments';
+import { SnackbarProvider } from 'notistack';
 
 class App extends Component {
   constructor(props){
@@ -21,13 +22,14 @@ class App extends Component {
     this.setState({loggedIn: false});
   }
 
-  handleLogin(){
-    this.setState({loggedIn: true});
+  handleLogin(user){
+    this.setState({loggedIn: user});
   }
 
   componentDidMount(){
-    if(isAuth()){
-        this.setState({loggedIn: true}); 
+    const user = isAuth();
+    if(user){
+        this.setState({loggedIn: user}); 
     }
     else{
         this.setState({loggedIn: false}); 
@@ -36,6 +38,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <SnackbarProvider maxSnack={3}>
         <BrowserRouter> 
           {/* <Header loggedIn={this.state.loggedIn} handleLogout={this.handleLogout}/>    */}
           <Drawer 
@@ -52,7 +55,7 @@ class App extends Component {
             handleLogout={this.handleLogout}
           />
         </BrowserRouter>
-        
+        </SnackbarProvider>
       </div>
     );
   }
