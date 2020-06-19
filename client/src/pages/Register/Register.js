@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Content } from "../../styles";
-import { Container, Card, CardContent, CardHeader,  Divider, IconButton, Button } from '@material-ui/core';
+import { Container, Card, CardContent, CardHeader,  Divider, IconButton, Button, Tooltip } from '@material-ui/core';
 import Service from '../../services/service';
 import Form from '../../components/Form/form';
 import ConfirmationDialog from '../../components/Dialogs/confirmation';
@@ -39,7 +39,7 @@ function Register (props) {
     function saveClient(values) {
         const userLogged = getCookie('token');
         if (userLogged) {
-            values.userId = isAuth()._id;
+            values.userId = isAuth().data.user._id;
             if (!client) {
                 Service.addClient(values)
                     .then(res => {
@@ -90,8 +90,10 @@ function Register (props) {
                             className="header"
                             action={
                                 !!client &&
-                                <IconButton onClick={openDeleteConfirmation} aria-label="settings">
-                                  <FiTrash2 className="trash"/>
+                                <IconButton onClick={openDeleteConfirmation} >
+                                    <Tooltip title="Excluir Cliente" arrow>
+                                    <span><FiTrash2 className="trash"/></span>
+                                    </Tooltip>
                                 </IconButton>
                             }/> 
                         <Divider variant="middle"/>

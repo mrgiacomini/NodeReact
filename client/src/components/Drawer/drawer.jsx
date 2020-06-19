@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Grid, CssBaseline, Drawer, Hidden, List, ListItem, ListItemText,
-    IconButton } from '@material-ui/core';
+    IconButton, Avatar} from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
@@ -67,13 +67,20 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Grid container direction="row" justify="space-between" alignItems="center">
-            <Typography variant="h6" component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
-                Giacomini Pinturas
-            </Typography>
+            <Grid item xs>
+              <Typography variant="h6" component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
+                  Giacomini Pinturas
+              </Typography>
+            </Grid>
             { props.loggedIn &&
-                <Typography variant="subtitle1" onClick={logout} component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
+              <Grid item xs={2}>
+                <Grid container direction="row" justify="space-between" alignItems="center">
+                  <Avatar src={props.loggedIn?.facebook?.picture?.data?.url} alt={props.loggedIn?.facebook?.name}/> 
+                  <Typography variant="subtitle1" onClick={logout} component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                     sair <FiLogOut/>
-                </Typography>
+                  </Typography>
+                </Grid>
+              </Grid>
             }
           </Grid>
         </Toolbar>

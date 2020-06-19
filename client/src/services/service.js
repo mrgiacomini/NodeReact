@@ -33,6 +33,10 @@ class ApiService {
     getPayments(clientId) {
         return api.post('payments', {clientId: clientId});
     }
+    
+    deletePayment(paymentId) {
+        return api.delete('deletePayment/'+paymentId);
+    }
 }
 
 export default new ApiService();

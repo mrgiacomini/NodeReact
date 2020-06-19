@@ -23,4 +23,6 @@ router.post('/addPayment', (req, res) => ClientController.addPayment(req,res) );
 
 router.post('/payments', (req, res) => ClientController.getPayments(req,res) );
 
+router.delete('/deletePayment/:id', (req, res) => ClientController.deletePayment(req,res));
+
 module.exports = app => app.use('/api', router);

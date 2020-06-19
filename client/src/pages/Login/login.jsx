@@ -10,9 +10,10 @@ export default function Login(props) {
     const responseFacebook = response => {     
         LoginService.login(response)
         .then(res => {
-            authenticate(res, () => {
-                if (isAuth()) {
-                    props.handleLogin();
+            authenticate({data: res.data, facebook: response}, () => {
+                const user = isAuth();
+                if (user) {
+                    props.handleLogin(user);
                     props.history.push('/');
                 }
             });

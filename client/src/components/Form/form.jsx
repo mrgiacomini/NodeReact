@@ -1,5 +1,5 @@
 import  React, { useState, useEffect } from 'react';
-import {  Grid, TextField,  InputAdornment, Button } from '@material-ui/core'
+import {  Grid, TextField,  InputAdornment, Button, Tooltip } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns';
 import { ptBR } from "date-fns/locale";
@@ -109,14 +109,18 @@ function Form(props) {
                                 { !!values.phone && !!client._id && 
                                     <>
                                     <Grid item xs={1} className="item" style={{paddingLeft: '0'}}>  
-                                        <a href={'tel:'+values.phone}>
-                                        <FiPhoneForwarded size={20}/>
-                                        </a>
+                                        <Tooltip title="Ligar" arrow>   
+                                            <a href={'tel:'+values.phone}>                                        
+                                            <FiPhoneForwarded size={20}/>
+                                            </a>
+                                        </Tooltip>
                                     </Grid>
-                                    <Grid item xs={1} className="item" style={{paddingLeft: '0'}}>  
-                                        <a href={'https://api.whatsapp.com/send?phone=55'+values.phone} target="_blank" rel="noopener noreferrer">
-                                        <FaWhatsapp className="whatsapp"/>
-                                        </a>
+                                    <Grid item xs={1} className="item" style={{paddingLeft: '0'}}> 
+                                        <Tooltip title="Abrir WhatsApp" arrow>   
+                                            <a href={'https://api.whatsapp.com/send?phone=55'+values.phone} target="_blank" rel="noopener noreferrer">
+                                            <FaWhatsapp className="whatsapp"/>
+                                            </a>
+                                        </Tooltip>
                                     </Grid>
                                     </>
                                 }
