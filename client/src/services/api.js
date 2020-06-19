@@ -1,11 +1,8 @@
 import axios from "axios";
-import { getCookie, signout } from '../helpers/auth';
+import { signout } from '../helpers/auth';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API,
-  headers: {
-    Authorization: `Bearer ${getCookie('token')}`
-   }
 });
 
 api.interceptors.response.use(

@@ -2,7 +2,7 @@ import api from './api';
 
 class ApiService {
 
-    getClients(userId) {
+    getClients() {
         return api.get('clients');
     }
 

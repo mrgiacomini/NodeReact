@@ -5,8 +5,9 @@ import { AppBar, Toolbar, Typography, Grid, CssBaseline, Drawer, Hidden, List, L
 
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
-import { signout } from '../../helpers/auth';
 import {FiLogOut} from 'react-icons/fi';
+
+import { useAuth } from '../../contexts/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,11 +20,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ResponsiveDrawer(props) {
+const ResponsiveDrawer = (props) => {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  
+  const {user, logout} = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -31,10 +34,6 @@ function ResponsiveDrawer(props) {
 
   const Content = () => {
       return props.content;
-  }
-
-  const logout = () => {
-    signout(props.handleLogout);
   }
 
   const drawer = (
@@ -72,10 +71,10 @@ function ResponsiveDrawer(props) {
                   Giacomini Pinturas
               </Typography>
             </Grid>
-            { props.loggedIn &&
+            { !!user &&
               <Grid item xs={2}>
                 <Grid container direction="row" justify="space-between" alignItems="center">
-                  <Avatar src={props.loggedIn?.facebook?.picture?.data?.url} alt={props.loggedIn?.facebook?.name}/> 
+                  <Avatar src={user?.facebook?.picture?.data?.url} alt={user?.facebook?.name}/> 
                   <Typography variant="subtitle1" onClick={logout} component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                     sair <FiLogOut/>
                   </Typography>
