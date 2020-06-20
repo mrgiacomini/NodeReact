@@ -12,15 +12,15 @@ function Header(props) {
         <AppBar position="static">
             <Toolbar>
                 <Grid container direction="row" justify="space-between" alignItems="center">
-                    <Grid item xs>
+                    <Grid item xs={8} md>
                     <Typography variant="h6" component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                         Giacomini Pinturas
                     </Typography>
                     </Grid>
                     { !!user &&
-                    <Grid item xs={2}>
-                        <Grid container direction="row" justify="space-between" alignItems="center">
-                        <Avatar src={user?.facebook?.picture?.data?.url} alt={user?.facebook?.name}/> 
+                    <Grid item xs={4} md={2}>
+                        <Grid container direction="row" justify="flex-end" alignItems="center">
+                        <Avatar src={user?.facebook?.picture?.data?.url} alt={user?.facebook?.name} style={{marginRight: 10}}/> 
                         <Typography variant="subtitle1" onClick={logout} component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                             sair <FiLogOut/>
                         </Typography>
