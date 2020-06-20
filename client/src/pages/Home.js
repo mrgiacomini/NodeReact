@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Content } from "../styles";
 import { Container, Button, Card, CardContent, Grid, Typography, Badge, Tooltip } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -6,30 +6,36 @@ import Service from '../services/service';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {FaCashRegister} from 'react-icons/fa';
 
-class Home extends Component {
-    state = {
+const Home = () => {
+
+    const [state, setState ] = React.useState({
       clientList: [],
       didGetClients: false
-    };
+    });
 
-    componentDidMount() {
+    // componentDidMount() {
+    //   Service.getClients().then(response => {
+    //     this.setState({clientList: response.data, didGetClients: true });
+    //   });
+    // }
+
+    // componentDidUpdate(nextProps) { 
+    //   if (nextProps.location.pathname === '')
+    //     this.componentDidMount();
+    // }
+
+    useEffect(() => {
       Service.getClients().then(response => {
-        this.setState({clientList: response.data, didGetClients: true });
-      });
-    }
+            setState({clientList: response.data, didGetClients: true });
+          });
+    },[]);
 
-    componentDidUpdate(nextProps) { 
-      if (nextProps.location.pathname === '')
-        this.componentDidMount();
-    }
-
-    render() {
       return (
         <Container maxWidth="lg">
             <Content>               
             <Button component={Link} to={'/cadastro'} variant="contained" color="primary">Novo</Button>
             <Content/>            
-            { !this.state.didGetClients && !this.state.clientList.length ?
+            { !state.didGetClients && !state.clientList.length ?
               (<>
                 <Card style={{marginBottom:10}}>
                   <Skeleton variant="rect" width="100%" height={100} animation="pulse"/>
@@ -46,14 +52,14 @@ class Home extends Component {
                 </>
               )
               : 
-              ( this.state.didGetClients && !this.state.clientList.length ?
+              ( state.didGetClients && !state.clientList.length ?
                 (
                   <Typography variant="body2" color="textSecondary" component="p" align="center">
                       nenhum cliente cadastrado
                   </Typography>
                 ) :
                 (
-                this.state.clientList.map((client, indice) => (
+                state.clientList.map((client, indice) => (
                 <Card key={client._id} style={{marginBottom:10}}>
                         <CardContent>
                           <Grid container direction="row" >
@@ -125,7 +131,7 @@ class Home extends Component {
             </Content>
         </Container>
         );
-    }  
+    
     };
 
 export default Home;

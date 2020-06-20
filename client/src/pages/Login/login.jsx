@@ -7,10 +7,8 @@ import { useAuth } from '../../contexts/auth';
 import './styles.css';
 
 export default function Login(props) {
-    const {user, login} = useAuth();
-    if (!!user)
-        props.history.push('/');
-        
+    const {login} = useAuth();
+      
     const responseFacebook = response => {     
         LoginService.login(response)
         .then(res => {
@@ -28,7 +26,7 @@ export default function Login(props) {
             <Content>
                 <div style={{textAlign: 'center'}}>
                     <FacebookLoginWithButton
-                    appId="3115359865198631"
+                    appId={process.env.REACT_APP_FACEBOOK_CLIENT}
                     autoLoad={false}
                     fields="name,email,picture"
                     language="pt_BR"

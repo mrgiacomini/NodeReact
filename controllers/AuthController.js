@@ -21,7 +21,7 @@ exports.facebookLogin = (req, res) => {
                 User.findOne({ email: email }).then((user) => {
                     if (user) {
                         return res.json({
-                            token: generateToken({id: user._id}),
+                            token: generateToken({id: user._id, role: user.role}),
                             user: user
                         });
                     } else {
@@ -30,7 +30,7 @@ exports.facebookLogin = (req, res) => {
                         User.create(newUser)
                         .then((data) => {
                             return res.json({
-                                token: generateToken({id: user._id}),
+                                token: generateToken({id: user._id, role: user.role}),
                                 user: data
                             });
                         })
