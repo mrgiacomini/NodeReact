@@ -11,7 +11,7 @@ api.interceptors.response.use(
 );
 
 const errorHandler = (error) => {
-  if (error.response.status === 401) //signout(()=>{setTimeout(() => window.location.reload(), 500)})
+  if (error.response.status === 401) signout(()=>{setTimeout(() => window.location.reload(), 500)})
   
   return Promise.reject(error);
 }
