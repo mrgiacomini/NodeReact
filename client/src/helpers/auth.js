@@ -53,17 +53,16 @@ export const authenticate = (response, next) => {
 // Access user info from localstorage
 export const isAuth = () => {
     if (window !== 'undefined') {
-        const cookieChecked = getCookie('token');        
-        api.defaults.headers.Authorization = `Bearer ${cookieChecked}`;
-        if (cookieChecked !== 'undefined') {
+        const token = getCookie('token');        
+        if (token !== 'undefined') {
+            api.defaults.headers.Authorization = `Bearer ${token}`;
             const user = localStorage.getItem('user');
-            if (user) {
-                return JSON.parse(user);
-            } else {
-                return false;
-            }
+            if (user)
+                return JSON.parse(user);           
         }
     }
+
+    return false;
 };
 
 export const signout = () => {

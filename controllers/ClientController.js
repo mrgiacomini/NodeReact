@@ -2,8 +2,13 @@ const Client = require('../models/client');
 const Payment = require('../models/payment');
 
 exports.getByUser = async (req,res) => {
-        if (!!req.userId) { 
-            var clients = await Client.find({ userId: req.userId }).sort({ _id: 'desc'}).exec();
+        if (!!req.userId) {
+            var clients = null; 
+            if (req.role === 'admin')
+                clients = await Client.find({}).sort({ _id: 'desc'}).exec();
+            else     
+                clients = await Client.find({ userId: req.userId }).sort({ _id: 'desc'}).exec();
+            
             clients = clients.map((client) => (client.toObject()));
 
             if (!!clients.length) 

@@ -16,20 +16,20 @@ import ConfirmationDialog from '../../components/Dialogs/confirmation';
 
 function Payments (props) {
     const client = props.location.client;
-    if (!client)
-        props.history.push('/');
    
     const { enqueueSnackbar } = useSnackbar();
     const showSnackbar = (message, variant) => {
         enqueueSnackbar(message, {variant});
     }
 
-    // eslint-disable-next-line
-    const [payment, setPayment] = React.useState({
+    const initialState = {
         date: new Date(),
         amount: '',
         clientId: client?._id
-    });
+    };
+
+    // eslint-disable-next-line
+    const [payment, setPayment] = React.useState(initialState);
 
     const [paymentList, setPaymentList] = React.useState([]);
     const [selectedPayment, setSelectedPayment] = React.useState([]);
@@ -81,7 +81,7 @@ function Payments (props) {
 
         Service.addPayment(values).then(response => {
             setSubmitting(false);
-            setPayment({});
+            setPayment(initialState);
             getPayments();
             showSnackbar('Adicionado com sucesso', 'success');
         });
@@ -173,7 +173,7 @@ function Payments (props) {
                                             </Grid>
 
                                             <Grid item>
-                                                <Button type="submit" disabled={isSubmitting || (props.data && props.data.disabled)}
+                                                <Button type="submit" disabled={isSubmitting}
                                                     variant="contained"  size="small" style={{color: '#fff', backgroundColor: 'green'}} >
                                                     Adicionar
                                                 </Button>

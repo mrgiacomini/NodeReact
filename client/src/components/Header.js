@@ -1,29 +1,31 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Grid } from '@material-ui/core';
-//import MenuIcon from '@material-ui/icons/Menu';
+import { AppBar, Toolbar, Typography, Grid, Avatar } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { signout } from '../helpers/auth';
 import {FiLogOut} from 'react-icons/fi';
+import { useAuth } from '../contexts/auth';
 
 function Header(props) {
-    const logout = () => {
-        signout(props.handleLogout);
-    }
+    
+    const {user, logout} = useAuth();
     
     return (
-    <AppBar position="static">
+        <AppBar position="static">
             <Toolbar>
-                {/* <IconButton edge="start" color="inherit" aria-label="Menu">
-                    <MenuIcon />
-                </IconButton>  */}
                 <Grid container direction="row" justify="space-between" alignItems="center">
+                    <Grid item xs>
                     <Typography variant="h6" component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                         Giacomini Pinturas
                     </Typography>
-                    { props.loggedIn &&
+                    </Grid>
+                    { !!user &&
+                    <Grid item xs={2}>
+                        <Grid container direction="row" justify="space-between" alignItems="center">
+                        <Avatar src={user?.facebook?.picture?.data?.url} alt={user?.facebook?.name}/> 
                         <Typography variant="subtitle1" onClick={logout} component={Link} to={'/'} style={{ textDecoration: 'none', color: 'white' }}>
                             sair <FiLogOut/>
                         </Typography>
+                        </Grid>
+                    </Grid>
                     }
                 </Grid>
             </Toolbar>
