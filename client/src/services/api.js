@@ -1,11 +1,8 @@
 import axios from "axios";
-import { getCookie, signout } from '../helpers/auth';
+import { signout } from '../helpers/auth';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API,
-  headers: {
-    Authorization: `Bearer ${getCookie('token')}`
-   }
 });
 
 api.interceptors.response.use(
@@ -14,7 +11,7 @@ api.interceptors.response.use(
 );
 
 const errorHandler = (error) => {
-  if (error.response.status === 401) //signout(()=>{setTimeout(() => window.location.reload(), 500)})
+  if (error.response.status === 401) signout(()=>{setTimeout(() => window.location.reload(), 500)})
   
   return Promise.reject(error);
 }

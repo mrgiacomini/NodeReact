@@ -3,17 +3,19 @@ import FacebookLoginWithButton from 'react-facebook-login';
 import { Content } from "../../styles";
 import { Container } from '@material-ui/core';
 import LoginService from '../../services/login';
-import { authenticate, isAuth } from '../../helpers/auth';
+import { useAuth } from '../../contexts/auth';
 import './styles.css';
 
 export default function Login(props) {
+    const {user, login} = useAuth();
+    if (!!user)
+        props.history.push('/');
+        
     const responseFacebook = response => {     
         LoginService.login(response)
         .then(res => {
-            authenticate({data: res.data, facebook: response}, () => {
-                const user = isAuth();
+            login({data: res.data, facebook: response}, (user) => {
                 if (user) {
-                    props.handleLogin(user);
                     props.history.push('/');
                 }
             });

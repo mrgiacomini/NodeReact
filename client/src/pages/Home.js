@@ -3,7 +3,6 @@ import { Content } from "../styles";
 import { Container, Button, Card, CardContent, Grid, Typography, Badge, Tooltip } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Service from '../services/service';
-import { getCookie } from '../helpers/auth';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {FaCashRegister} from 'react-icons/fa';
 
@@ -14,11 +13,7 @@ class Home extends Component {
     };
 
     componentDidMount() {
-      var token = getCookie('token');
-      if (token === undefined)
-        setTimeout(() => {token = getCookie('token');}, 500);
-          
-      Service.getClients(token).then(response => {
+      Service.getClients().then(response => {
         this.setState({clientList: response.data, didGetClients: true });
       });
     }

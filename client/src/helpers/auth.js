@@ -1,4 +1,5 @@
 import cookie from 'js-cookie'
+import api from "../services/api";
 
 // Set in Cookie
 export const setCookie = (key, value) => {
@@ -43,16 +44,17 @@ export const removeLocalStorage = key => {
 
 // Auth enticate user by passing data to cookie and localstorage during signin
 export const authenticate = (response, next) => {
-    console.log(response)
+    api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
     setCookie('token', response.data.token);
     setLocalStorage('user', response);
-    setTimeout(() => next(), 1000);
+    next(response);
 };
 
 // Access user info from localstorage
 export const isAuth = () => {
     if (window !== 'undefined') {
-        const cookieChecked = getCookie('token');
+        const cookieChecked = getCookie('token');        
+        api.defaults.headers.Authorization = `Bearer ${cookieChecked}`;
         if (cookieChecked !== 'undefined') {
             const user = localStorage.getItem('user');
             if (user) {
@@ -64,10 +66,9 @@ export const isAuth = () => {
     }
 };
 
-export const signout = next => {
+export const signout = () => {
     removeCookie('token');
     removeLocalStorage('user');
-    next();
 };
 
 export const updateUser = (response, next) => {
