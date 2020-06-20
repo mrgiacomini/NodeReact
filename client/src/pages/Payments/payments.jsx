@@ -13,6 +13,7 @@ import {FiX} from 'react-icons/fi';
 import Service from '../../services/service';
 import { useSnackbar } from 'notistack';
 import ConfirmationDialog from '../../components/Dialogs/confirmation';
+import {dayOfWeek} from '../../helpers/utils';
 
 function Payments (props) {
     const client = props.location.client;
@@ -153,8 +154,7 @@ function Payments (props) {
                                             </Grid>
                                             <Grid item lg className="item">
                                                 <TextField
-                                                     size="small"
-                                                     fullWidth
+                                                    size="small"
                                                     type="text"
                                                     label="Valor Total"
                                                     id="amount"
@@ -216,7 +216,7 @@ function Payments (props) {
                                                     <TableCell component="th" scope="row">
                                                         {Number(row.amount).toLocaleString('pt-BR',  { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' })}
                                                     </TableCell>
-                                                    <TableCell >{new Date(row.date).toLocaleDateString()}</TableCell>
+                                                    <TableCell >{ dayOfWeek(new Date(row.date).getDay())}, {new Date(row.date).toLocaleDateString()}</TableCell>
                                                     <TableCell align="right">
                                                         <IconButton onClick={()=>openDeleteConfirmation(row)} >
                                                             <Tooltip title="Excluir Pagamento" arrow>
