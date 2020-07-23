@@ -12,8 +12,8 @@ function generateToken(params = {}) {
 
 exports.facebookLogin = (req, res) => {
     const { userID, accessToken } = req.body;
-
-    const url = `https://graph.facebook.com/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+    // const url = `https://graph.facebook.com/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+    const url = `https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,email`;
     return (
         axios.get(url)
             .then(response => {
