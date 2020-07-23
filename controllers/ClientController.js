@@ -44,7 +44,7 @@ exports.deleteClient = (req, res) => {
 };
 
 exports.getPayments = (req, res) => {
-    Payment.find({ clientId: req.body.clientId }).sort({date: 'desc'})
+    Payment.find({ clientId: req.body.clientId }).sort({date: 'desc', createdAt: 'desc'})
     .then(payments => res.json(payments))
     .catch(error => res.json(error))    
 };
