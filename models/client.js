@@ -10,7 +10,8 @@ const clientSchema = new mongoose.Schema(
         date: Date,
         location: String,
         totalAmount: String,
-        description: String
+        description: String,
+        completed: Boolean
     },
     {
         timestamps: true
