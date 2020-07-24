@@ -6,17 +6,17 @@ module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader)
-    return res.status(401).send({ error: 'No token provided' });
+    return res.status(401).send({ error: 'No token provided. Acesso não autorizado.' });
 
   const parts = authHeader.split(' ');
 
   if (!parts.length === 2)
-    return res.status(401).send({ error: 'Token error' });
+    return res.status(401).send({ error: 'Token error. Acesso não autorizado.' });
 
   const [ scheme, token ] = parts;
 
   if (!/^Bearer$/i.test(scheme))
-    return res.status(401).send({ error: 'Token malformatted' });
+    return res.status(401).send({ error: 'Token malformatted. Acesso não autorizado.' });
 
   jwt.verify(token, keys.JWT_SECRET, (err, decoded) => {
     
