@@ -19,7 +19,6 @@ exports.facebookLogin = (req, res) => {
                 const { email, name, id } = response.data;
                 
                 User.findOne({ $or:[{email: email}, {facebookID: id}] }).then((user) => {
-                    console.log(user)
                     if (user) {
                         return res.json({
                             token: generateToken({id: user._id, role: user.role}),
