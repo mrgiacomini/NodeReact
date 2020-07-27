@@ -6,7 +6,9 @@ const NfseController = require('../controllers/NFSeController');
 
 router.use(authMiddleware);
 
-router.get('/nfe', (req,res) => NfseController.get(req,res));
+router.post('/getByNumber', (req,res) => NfseController.getByNumber(req,res));
+
+router.post('/get', (req,res) => NfseController.get(req,res));
 
 module.exports = app => app.use('/api/nfe', router);
 

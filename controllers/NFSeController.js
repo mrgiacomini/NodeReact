@@ -1,7 +1,8 @@
 var soap = require('soap');
 const NFSe = require('../models/nfse');
 
-exports.get = async (req,res) => {
+exports.getByNumber = async (req,res) => {
+    const {numeroNfse, username, password} = req.body;
     var urlTeste = 'http://fi1.fiorilli.com.br:5663/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
     var urlProd = 'C:\\Users\\fabiu\\Desktop\\IssWebWS-prod.xml';
     var consultarNfseServicoPrestadoProd = {
@@ -12,11 +13,11 @@ exports.get = async (req,res) => {
                 },
                 InscricaoMunicipal: '4.864' 
             },
-            NumeroNfse: '3',
+            NumeroNfse: numeroNfse,
             Pagina: '1'
         },
-        username: '14775228000168',
-        password: '14775228'
+        username: username,
+        password: password
     };
 
     var nf = {};
@@ -30,7 +31,6 @@ exports.get = async (req,res) => {
                 
                 if (!!nf) {
                     var NFse = new NFSe(); 
-                    NFse = nf.InfNfse;
                     NFse.ChaveAcesso = NFse.attributes.Id;
                     NFse.attributes = null;
                    
@@ -52,3 +52,74 @@ exports.get = async (req,res) => {
     );   
     
 };
+
+exports.get = async (req,res) => {
+    const {username, password} = req.body;
+    var urlTeste = 'http://fi1.fiorilli.com.br:5663/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
+    var urlProd = 'C:\\Users\\fabiu\\Desktop\\IssWebWS-prod.xml';
+    var numberOfNFSE = 3;
+
+    // numberOfNFSE = await NFSe.countDocuments({});
+    // console.log(numberOfNFSE)
+    
+    var consultarNfseFaixaProd = {
+        ConsultarNfseFaixaEnvio: {
+            Prestador: {
+                CpfCnpj: {
+                    Cnpj: '14775228000168'
+                },
+                InscricaoMunicipal: '4.864' 
+            },
+            Faixa: {
+                NumeroNfseInicial: '1',
+                NumeroNfseFinal: numberOfNFSE.toString()
+            },
+            Pagina: '1'
+        },
+        username: username,
+        password: password
+    };
+    
+    var loop = false, retornoAnterior = {}, retorno = {};
+    
+    try {
+        const client = await soap.createClientAsync(urlProd);
+            
+        do {            
+            const result = await client.consultarNfsePorFaixaAsync(consultarNfseFaixaProd);
+          
+            const msgError = result[0]?.ConsultarNfseFaixaResposta?.ListaMensagemRetorno?.MensagemRetorno;
+            const nfList = result[0]?.ConsultarNfseFaixaResposta?.ListaNfse;
+          
+            if (!!nfList && nfList.CompNfse.length > 0) {
+                retorno = nfList;
+                loop = true;
+                var num = Number(consultarNfseFaixaProd.ConsultarNfseFaixaEnvio.Faixa.NumeroNfseFinal);
+                consultarNfseFaixaProd.ConsultarNfseFaixaEnvio.Faixa.NumeroNfseFinal = ++num;
+            
+            } else if (!!msgError && !!msgError[0] && msgError[0].Codigo == 'E323') { //NF final não encontrada 
+                loop = false;
+                retorno = {...retornoAnterior};
+                return res.json(retornoAnterior);
+            }
+
+            if (!!msgError && !!msgError[0]) {          
+                retorno = res.json({error: msgError[0].Mensagem});
+                console.log(msgError[0].Mensagem);
+            }
+
+            retornoAnterior = {...retorno};
+        } while (loop);
+        
+        return res.json(retorno);
+            
+    } catch(e) {
+        if (!!e?.response) {
+            console.log(e?.response?.statusCode)
+            console.log(e?.body);
+            if (e?.response?.statusCode == 500) 
+                return res.json({error: e.body?.split('Error:')[1]?.split('<')[0]});
+        }
+    }
+};
+
