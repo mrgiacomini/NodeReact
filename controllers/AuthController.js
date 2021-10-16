@@ -26,16 +26,16 @@ exports.facebookLogin = (req, res) => {
                         });
                     } else {
                         
-                        let newUser = new User({ name, email, facebookID: id });
-                        User.create(newUser)
-                        .then((data) => {
-                            return res.json({
-                                token: generateToken({id: data._id, role: data.role}),
-                                user: data
-                            });
-                        })
-                        .catch(error => res.json(error));
-                        //res.status(401).send({error: 'Não cadastrado!'});
+                        // let newUser = new User({ name, email, facebookID: id });
+                        // User.create(newUser)
+                        // .then((data) => {
+                        //     return res.json({
+                        //         token: generateToken({id: data._id, role: data.role}),
+                        //         user: data
+                        //     });
+                        // })
+                        // .catch(error => res.json(error));
+                        return res.status(401).send({error: 'Não cadastrado!'});
                     }
                 });
             })

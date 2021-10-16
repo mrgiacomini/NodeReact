@@ -1,10 +1,27 @@
 var soap = require('soap');
 const NFSe = require('../models/nfse');
 
-exports.getByNumber = async (req,res) => {
-    const {numeroNfse, username, password} = req.body;
-    var urlTeste = 'http://fi1.fiorilli.com.br:5663/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
-    var urlProd = 'C:\\Users\\fabiu\\Desktop\\IssWebWS-prod.xml';
+const ScrapingController = require('./ScrapingController');
+
+var urlTeste = 'http://fi1.fiorilli.com.br:5663/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
+var urlProd = 'C:\\Users\\supero\\Desktop\\Pessoal\\Aplicativo Giacomini Pinturas\\IssWebWS-prod.xml';
+
+exports.printNfse = async (req, res) => {  
+    return ScrapingController.scrape(req.body);
+    // const resp = await this.getByNumberAsync(req.body);
+
+    // const respCreate = await PdfController.createNfse(resp);
+
+    // respCreate.toBuffer((err, buffer) => {
+    //     if(err) return err;
+        
+    //     res.end(buffer);            
+    // });   
+};
+
+exports.getByNumberAsync = async (dados) => {
+    const {numeroNfse, username, password} = dados;
+   
     var consultarNfseServicoPrestadoProd = {
         ConsultarNfseServicoPrestadoEnvio: {
             Prestador: {
@@ -20,43 +37,52 @@ exports.getByNumber = async (req,res) => {
         password: password
     };
 
-    var nf = {};
-    return (
-        soap.createClientAsync(urlProd).then((client) => {
-            return client.consultarNfseServicoPrestadoAsync(consultarNfseServicoPrestadoProd).then((result) => {
-                if (!!result[0]?.ConsultarNfseServicoPrestadoResposta?.ListaMensagemRetorno?.MensagemRetorno[0])
-                    return res.json({error: result[0].ConsultarNfseServicoPrestadoResposta?.ListaMensagemRetorno?.MensagemRetorno[0].Mensagem})
-                
-                nf = result[0]?.ConsultarNfseServicoPrestadoResposta?.ListaNfse?.CompNfse[0]?.Nfse?.InfNfse;
-                
-                if (!!nf) {
-                    var NFse = new NFSe(); 
-                    NFse.ChaveAcesso = NFse.attributes.Id;
-                    NFse.attributes = null;
-                   
-                    NFSe.create(NFse).then((data) => {
-                        return res.json(data);
-                    })
-                    .catch(error => { return res.json(error)});
-                } else
-                    return res.json({error: 'Erro ao buscar NF.'});
-            });
-        }).catch(e => {
-            if (!!e?.response) {
-                console.log(e?.response?.statusCode)
-                console.log(e?.body);
-                if (e?.response?.statusCode == 500) 
-                    return res.json({error: e.body?.split('Error:')[1]?.split('<')[0]});
-            }
-        })
-    );   
-    
+    try {
+        const client = await soap.createClientAsync(urlProd);
+
+        const result = await client.consultarNfseServicoPrestadoAsync(consultarNfseServicoPrestadoProd);
+      
+        if (result?.response?.statusCode == 500) 
+            return {error: e.body?.split('Error:')[1]?.split('<')[0]};
+
+        if (!!result[0]?.ConsultarNfseServicoPrestadoResposta?.ListaMensagemRetorno?.MensagemRetorno[0])
+        return {error: result[0].ConsultarNfseServicoPrestadoResposta?.ListaMensagemRetorno?.MensagemRetorno[0].Mensagem};
+        
+        const nf = result[0]?.ConsultarNfseServicoPrestadoResposta?.ListaNfse?.CompNfse[0]?.Nfse?.InfNfse;
+     
+        if (!!nf) {
+            var NFse = new NFSe(); 
+            NFse  = nf;
+            NFse.ChaveAcesso = NFse.attributes.Id;
+            NFse.attributes = null;
+            
+            const NFseData = await NFSe.create(NFse);
+            return  NFseData;
+        }
+
+        return null;
+
+    } catch (e) {
+        console.log(e?.response?.statusCode)
+        console.log(e?.body);
+        if (e?.response?.statusCode == 500) 
+            return res.json({error: e.body?.split('Error:')[1]?.split('<')[0]});
+            
+        return null;
+    }
+};
+
+exports.getByNumber = async (req, res) => {
+    const nfse = await this.getByNumberAsync(req.body);
+
+    if (!!nfse)
+        return res.json(nfse);
+
+    return res.json({error: 'Erro ao buscar NF.'});
 };
 
 exports.get = async (req,res) => {
     const {username, password} = req.body;
-    var urlTeste = 'http://fi1.fiorilli.com.br:5663/IssWeb-ejb/IssWebWS/IssWebWS?wsdl';
-    var urlProd = 'C:\\Users\\fabiu\\Desktop\\IssWebWS-prod.xml';
     var numberOfNFSE = 3;
 
     // numberOfNFSE = await NFSe.countDocuments({});

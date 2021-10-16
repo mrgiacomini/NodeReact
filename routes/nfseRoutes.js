@@ -6,6 +6,8 @@ const NfseController = require('../controllers/NFSeController');
 
 router.use(authMiddleware);
 
+router.post('/printNfse', (req,res) => NfseController.printNfse(req,res));
+
 router.post('/getByNumber', (req,res) => NfseController.getByNumber(req,res));
 
 router.post('/get', (req,res) => NfseController.get(req,res));
